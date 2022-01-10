@@ -12,7 +12,7 @@ def start_handler(message):
 
 @bot.message_handler(commands=['list'])
 def get_film_list(message):
-    bot.send_message(message.chat.id, "Список фильмов будет тут11222")
+    bot.send_message(message.chat.id, "Люблю Печенку")
 
 
 bot.polling(none_stop=True)
