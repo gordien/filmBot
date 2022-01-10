@@ -8,7 +8,7 @@ bot = telebot.TeleBot(TOKEN)
 
 @bot.message_handler(commands=['start', 'go'])
 def start_handler(message):
-    bot.send_message(message.chat.id, "Приветули")
+    bot.send_message(message.chat.id, "Приветулииии")
 
 @bot.message_handler(commands=['list'])
 def get_film_list(message):
