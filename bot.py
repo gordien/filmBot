@@ -24,7 +24,7 @@ def save_user_info(message):
 
 @bot.message_handler(commands=['start', 'go'])
 def start_handler(message):
-    bot.send_message(message.chat.id, "Приветулииии")
+    bot.send_message(message.chat.id, f"Приветулииии, {message} ")
     save_user_info(message)
 
 @bot.message_handler(commands=['list'])
