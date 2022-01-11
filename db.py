@@ -48,7 +48,7 @@ def db_create_tables(metadata, engine):
     user_film_list = db.Table('user_film_list',metadata,
                      db.Column('User_id', db.Integer),
                      db.Column('Group_id', db.Integer),
-                     db.Column('Film_id', db.ForeignKey("films.id")),
+                     db.Column('Film_id', db.ForeignKey("films.Id")),
                      db.Column('date_add',db.DateTime),
                      db.Column('deleted', db.BOOLEAN)
                         )
