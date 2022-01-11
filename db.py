@@ -80,11 +80,25 @@ def get_random_film():
         films_id.append(film[0])
     return random.choice(films_id)
 
+def get_film_data(film_id):
+    film={}
+    select_film_data = db.select([films]).where(films.c.Id == film_id)
+    result = connection.execute(select_film_data).fetchone()
+    film['id'] = result[0]
+    film['external_id'] = result[1]
+    film['source'] = result[2]
+    film['description'] = result[3]
+    film['name'] = result[4]
+    film['image'] = result[6]
+    film['year'] = result[7]
+    film['duration'] = result[8]
+    print(film)
+
 engine,connection,metadata = create_connection()
 
 films = db_create_tables(metadata,engine)
 
-print(get_random_film())
+
 
 
 

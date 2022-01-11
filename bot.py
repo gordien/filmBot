@@ -23,7 +23,9 @@ def start_handler(message):
 @bot.message_handler(commands=['random'])
 def get_film_list(message):
     if check_user(message):
-        bot.send_message(message.chat.id, pg.get_film_list(message.from_user.id))
+        film = pg.get_film_data(pg.get_random_film())
+        bot.send_photo(message.chat.id,film['image'],film['name'] + film['description'])
+
     else:
         bot.send_message(message.chat.id, f"private data")
 
