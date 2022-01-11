@@ -75,7 +75,7 @@ def user_exists(user_id):
 
 
 def save_user_info(id,username):
-    if not user_exists():
+    if not user_exists(id):
         user_insert = db.insert(users).values(
             Id = id,
             Username = username
