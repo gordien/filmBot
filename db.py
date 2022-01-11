@@ -75,6 +75,7 @@ def user_exists(user_id):
 
 
 def save_user_info(id,username):
+
     if not user_exists(id):
         user_insert = db.insert(users).values(
             Id = id,
@@ -127,7 +128,7 @@ engine,connection,metadata = create_connection()
 users, films, user_film_list, user_groups, group_members= db_create_tables(metadata,engine)
 
 
-
+save_user_info(1,'dasdsa')
 
 
 
