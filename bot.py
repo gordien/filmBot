@@ -2,12 +2,16 @@ import telebot
 import db as pg
 import kpadapter
 import config
-
+from telebot import types
 
 TOKEN = "2110122103:AAERC4s9rn6sRUXFAhNv61Y7aCB5dazMlcQ"
 
 bot = telebot.TeleBot(TOKEN)
 
+markup = types.ReplyKeyboardMarkup(row_width=2)
+itembtn1 = types.KeyboardButton('Смотреть')
+itembtn2 = types.KeyboardButton('Отложить')
+markup.add(itembtn1, itembtn2)
 
 def check_user(message):
     return message.from_user.id in config.users
@@ -24,7 +28,7 @@ def start_handler(message):
 def get_film_list(message):
     if check_user(message):
         film = pg.get_film_data(pg.get_random_film())
-        bot.send_photo(message.chat.id,film['image'],f"{film['name']}({film['year']}) {film['duration']} мин. \n  {film['description']}")
+        bot.send_photo(message.chat.id,film['image'],f"{film['name']}({film['year']}) {film['duration']} мин. \n  {film['description']}",reply_markup=markup)
 
     else:
         bot.send_message(message.chat.id, f"private data")
