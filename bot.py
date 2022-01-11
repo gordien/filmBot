@@ -27,7 +27,7 @@ def start_handler(message):
 def get_film_list(message):
     if check_user(message):
         film = pg.get_film_data(pg.get_random_film())
-        markup = types.ReplyKeyboardMarkup(row_width=2)
+        markup = types.ReplyKeyboardMarkup(row_width=2,one_time_keyboard=True)
         itembtn1 = types.KeyboardButton(f"Смотреть {film['id']}")
         itembtn2 = types.KeyboardButton('Отложить')
         itembtn3 = types.KeyboardButton(f"Удалить {film['id']}")
