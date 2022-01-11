@@ -31,7 +31,7 @@ def get_film_info(film_id):
 
 def save_film_info_url(url):
     try:
-        return db.save_film_info(get_film_info(urlparse.parse_url(url)))
+        return db.save_film_info(get_film_info(urlparse.parse_url(url)))[0]
 
     except Exception as e:
         print(e)
