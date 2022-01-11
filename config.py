@@ -4,3 +4,7 @@ kinopoisk = {
 }
 
 db = {"name":"film.db"}
+
+# users = [530789999,421552353]
+
+users = [530789999]

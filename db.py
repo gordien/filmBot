@@ -2,6 +2,7 @@ import datetime
 
 import sqlalchemy as db
 from sqlalchemy.engine.url import URL
+import random
 
 
 DATABASE = {
@@ -15,23 +16,6 @@ DATABASE = {
 
 
 def db_create_tables(metadata, engine):
-    users = db.Table('users', metadata,
-                     db.Column('Id', db.Integer(), primary_key=True),
-                     db.Column('Username', db.String(255), nullable=False),
-                     db.Column('Default_group_id', db.Integer()),
-                     )
-
-    user_groups = db.Table('user_groups', metadata,
-                     db.Column('Group_id', db.Integer(), primary_key=True),
-                     db.Column('Group_name', db.String(255), nullable=False)
-                     )
-
-    group_members = db.Table('group_members', metadata,
-                     db.Column('Group_id', db.Integer()),
-                     db.Column('User_id', db.Integer()),
-                    db.UniqueConstraint('Group_id', 'User_id', name='unique_group_member')
-                     )
-
     films = db.Table('films',metadata,
                      db.Column('Id',db.Integer,primary_key=True,autoincrement=True),
                      db.Column('External_id',db.String(255),nullable=False),
@@ -43,18 +27,9 @@ def db_create_tables(metadata, engine):
                      db.Column('year', db.Integer),
                      db.Column('duration', db.Integer),
                      db.UniqueConstraint('External_id','Source', name='unique_film')
-                         )
-
-    user_film_list = db.Table('user_film_list',metadata,
-                     db.Column('User_id', db.Integer),
-                     db.Column('Group_id', db.Integer),
-                     db.Column('Film_id', db.ForeignKey("films.Id")),
-                     db.Column('date_add',db.DateTime),
-                     db.Column('deleted', db.BOOLEAN)
-                        )
-
+                                )
     metadata.create_all(engine)
-    return users, films, user_film_list, user_groups, group_members
+    return films
 
 
 def create_connection():
@@ -67,29 +42,6 @@ def create_connection():
 def close_connection(connection,engine):
     connection.close()
     engine.dispose()
-
-
-def user_exists(user_id):
-    s = users.select()
-    return connection.execute(db.select([users]).where(users.c.Id == user_id)).rowcount != 0
-
-
-def save_user_info(id,username):
-
-    if not user_exists(id):
-        user_insert = db.insert(users).values(
-            Id = id,
-            Username = username
-        )
-        try:
-            connection.execute(user_insert)
-        except Exception as e:
-                print (e)
-    else:
-        pass
-
-
-
 
 def save_film_info(film):
     film_insert = db.insert(films).values(
@@ -109,19 +61,10 @@ def save_film_info(film):
         print(e)
 
 
-def add_film_to_list_db(film_id,user_id):
-    film_list_insert = db.insert(user_film_list).values(
-        User_id=user_id,
-        Film_id=film_id,
-        date_add = datetime.datetime.now()
-    )
-    try:
-        connection.execute(film_list_insert)
-    except Exception as e:
-        print(e)
 
-def get_film_list(user_id):
-    select_films = db.select([films.c.Id,films.c.Name,films.c.duration]).select_from(films.join(user_film_list)).where(user_film_list.c.User_id == user_id)
+
+def get_film_list():
+    select_films = db.select([films.c.Id,films.c.Name,films.c.duration])
     film_list = connection.execute(select_films).fetchall()
     user_films = "id/название/мин\n"
     for film in film_list:
@@ -129,14 +72,20 @@ def get_film_list(user_id):
         user_films+=film_string
     return user_films
 
-
+def get_random_film():
+    films_id =[]
+    select_films = db.select([films.c.Id])
+    films_id_from_db = list(connection.execute(select_films).fetchall())
+    for film in films_id_from_db:
+        films_id.append(film[0])
+    return random.choice(films_id)
 
 engine,connection,metadata = create_connection()
 
-users, films, user_film_list, user_groups, group_members= db_create_tables(metadata,engine)
+films = db_create_tables(metadata,engine)
 
+print(get_random_film())
 
-print(get_film_list(421552353))
 
 
 
