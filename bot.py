@@ -18,7 +18,7 @@ def get_film_list(message):
 
 @bot.message_handler(content_types=['url'])
 def parse_url(message):
-    bot.send_message(message.chat.id, "Получена ссылка")
+    bot.send_message(message.chat.id, message)
 
 
 
