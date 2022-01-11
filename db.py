@@ -1,8 +1,7 @@
-import datetime
-
 import sqlalchemy as db
 from sqlalchemy.engine.url import URL
 import random
+
 
 
 DATABASE = {
@@ -97,7 +96,7 @@ def get_film_data(film_id):
     return film
 
 def delete_film(film_id):
-    del_film = db.update([films]).where(films.c.Id == film_id).values(deleted=1)
+    del_film = db.update(films).where(films.c.Id == film_id).values(deleted=1)
     try:
         connection.execute((del_film))
     except Exception as e:
@@ -107,6 +106,7 @@ def delete_film(film_id):
 engine,connection,metadata = create_connection()
 
 films = db_create_tables(metadata,engine)
+
 
 
 
