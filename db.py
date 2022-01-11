@@ -66,8 +66,8 @@ def save_film_info(film):
 
 
 def get_film_list():
-    select_films = db.select([films.c.Id,films.c.Name,films.c.duration])
-    film_list = connection.execute(select_films).where(films.c.deleted == 0).fetchall()
+    select_films = db.select([films.c.Id,films.c.Name,films.c.duration]).where(films.c.deleted == 0)
+    film_list = connection.execute(select_films).fetchall()
     user_films = "id/название/мин\n"
     for film in film_list:
         film_string = f"{film[0]}) {film[1]}, {film[2]} мин. \n"
