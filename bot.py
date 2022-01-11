@@ -41,6 +41,7 @@ def get_film_list(message):
 def parse_message(message):
     if check_user(message):
         try:
+            kpadapter.save_film_info_url(message.text)
             bot.send_message(message.chat.id, 'Фильм добавлен в список. Для просомтра списка выполните команду /list')
         except Exception as e:
             print(e)
