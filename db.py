@@ -76,8 +76,8 @@ def get_film_list():
 
 def get_random_film():
     films_id =[]
-    select_films = db.select([films.c.Id])
-    films_id_from_db = list(connection.execute(select_films).where(films.c.deleted == 0).fetchall())
+    select_films = db.select([films.c.Id]).where(films.c.deleted == 0)
+    films_id_from_db = list(connection.execute(select_films).fetchall())
     for film in films_id_from_db:
         films_id.append(film[0])
     return random.choice(films_id)
