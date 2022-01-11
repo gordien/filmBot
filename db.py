@@ -123,7 +123,10 @@ def add_film_to_list_db(film_id,user_id):
 def get_film_list(user_id):
     select_films = db.select([films.c.Id,films.c.Name,films.c.duration]).select_from(films.join(user_film_list)).where(user_film_list.c.User_id == user_id)
     film_list = connection.execute(select_films).fetchall()
-    return film_list
+    user_films = []
+    for film in film_list:
+        user_films.append([*film])
+    return user_films
 
 
 
@@ -132,7 +135,7 @@ engine,connection,metadata = create_connection()
 users, films, user_film_list, user_groups, group_members= db_create_tables(metadata,engine)
 
 
-
+print(get_film_list(421552353))
 
 
 

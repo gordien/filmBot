@@ -15,7 +15,7 @@ def start_handler(message):
 
 @bot.message_handler(commands=['list'])
 def get_film_list(message):
-    bot.send_message(message.chat.id, *pg.get_film_list(message.from_user.id))
+    bot.send_message(message.chat.id, pg.get_film_list(message.from_user.id))
 
 @bot.message_handler(content_types=['text'])
 def parse_message(message):
