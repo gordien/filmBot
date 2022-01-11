@@ -20,7 +20,7 @@ def get_film_list(message):
 @bot.message_handler(content_types=['text'])
 def parse_message(message):
     try:
-        pg.add_film_to_list_db(kpadapter.save_film_info_url(message.text),message.from_user.id)
+        pg.add_film_to_list_db(kpadapter.save_film_info_url(message.text)[0],message.from_user.id)
         bot.send_message(message.chat.id, 'Фильм добавлен в список. Для просомтра списка выполните команду /list')
     except Exception as e:
         print(e)
