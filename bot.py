@@ -31,7 +31,7 @@ def get_film_list(message):
 @bot.message_handler(commands=['list'])
 def get_film_list(message):
     if check_user(message):
-        bot.send_message(message.chat.id, pg.get_film_list(message.from_user.id))
+        bot.send_message(message.chat.id, pg.get_film_list())
     else:
         bot.send_message(message.chat.id, f"private data")
 
