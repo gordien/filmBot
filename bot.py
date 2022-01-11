@@ -16,7 +16,7 @@ def start_handler(message):
 def get_film_list(message):
     bot.send_message(message.chat.id, "Люблю Печенку")
 
-@bot.message_handler(content_types=['url'])
+@bot.message_handler(content_types=['text'])
 def parse_url(message):
     bot.send_message(message.chat.id, message)
 
