@@ -92,7 +92,7 @@ def get_film_data(film_id):
     film['image'] = result[6]
     film['year'] = result[7]
     film['duration'] = result[8]
-    print(film)
+    return film
 
 engine,connection,metadata = create_connection()
 
