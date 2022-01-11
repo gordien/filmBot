@@ -25,12 +25,14 @@ def start_handler(message):
 def get_film_list(message):
     if check_user(message):
         film = pg.get_film_data(pg.get_random_film())
-        msg = bot.send_photo(message.chat.id,film['image'],f"{film['name']}({film['year']}) {film['duration']} мин. \n  {film['description']},filmId:{film['id']}",reply_markup=markup)
         markup = types.ReplyKeyboardMarkup(row_width=2)
         itembtn1 = types.KeyboardButton(f"Смотреть {film['id']}")
         itembtn2 = types.KeyboardButton('Отложить')
         markup.add(itembtn1, itembtn2)
-        bot.register_next_step_handler(msg, delete_film_from_list)
+
+        msg = bot.send_photo(message.chat.id,film['image'],f"{film['name']}({film['year']}) {film['duration']} мин. \n  {film['description']},filmId:{film['id']}",reply_markup=markup)
+
+
     else:
         bot.send_message(message.chat.id, f"private data")
 
