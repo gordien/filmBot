@@ -31,7 +31,7 @@ def get_film_info(film_id):
 
 def save_film_info_url(url):
     try:
-        db.save_film_info(get_film_info(urlparse.parse_url(url)))
+        return db.save_film_info(get_film_info(urlparse.parse_url(url)))
 
     except Exception as e:
         print(e)
@@ -42,4 +42,4 @@ def save_film_info_url(url):
 
 # print('https://kinopoiskapiunofficial.tech/images/posters/kp_small/301.jpg')
 
-save_film_info_url('https://www.kinopoisk.ru/series/508161/')
+# save_film_info_url('https://www.kinopoisk.ru/series/508161/')
