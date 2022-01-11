@@ -26,6 +26,7 @@ def db_create_tables(metadata, engine):
                      db.Column('poster_image', db.LargeBinary),
                      db.Column('year', db.Integer),
                      db.Column('duration', db.Integer),
+                     db.Column('deleted', db.Integer),
                      db.UniqueConstraint('External_id','Source', name='unique_film')
                                 )
     metadata.create_all(engine)
@@ -52,7 +53,8 @@ def save_film_info(film):
         poster_link = film['poster_link'],
         poster_image = film['poster_image'],
         year =  film['year'],
-        duration = film['duration']
+        duration = film['duration'],
+        deleted=0
     )
     try:
         result = connection.execute(film_insert)
@@ -65,7 +67,7 @@ def save_film_info(film):
 
 def get_film_list():
     select_films = db.select([films.c.Id,films.c.Name,films.c.duration])
-    film_list = connection.execute(select_films).fetchall()
+    film_list = connection.execute(select_films).where(films.c.deleted == 0).fetchall()
     user_films = "id/название/мин\n"
     for film in film_list:
         film_string = f"{film[0]}) {film[1]}, {film[2]} мин. \n"
@@ -75,7 +77,7 @@ def get_film_list():
 def get_random_film():
     films_id =[]
     select_films = db.select([films.c.Id])
-    films_id_from_db = list(connection.execute(select_films).fetchall())
+    films_id_from_db = list(connection.execute(select_films).where(films.c.deleted == 0).fetchall())
     for film in films_id_from_db:
         films_id.append(film[0])
     return random.choice(films_id)
@@ -93,6 +95,14 @@ def get_film_data(film_id):
     film['year'] = result[7]
     film['duration'] = result[8]
     return film
+
+def delete_film(film_id):
+    del_film = db.update([films]).where(films.c.Id == film_id).values(deleted=1)
+    try:
+        connection.execute((del_film))
+    except Exception as e:
+        print(e)
+
 
 engine,connection,metadata = create_connection()
 
