@@ -28,10 +28,13 @@ def start_handler(message):
 def get_film_list(message):
     if check_user(message):
         film = pg.get_film_data(pg.get_random_film())
-        bot.send_photo(message.chat.id,film['image'],f"{film['name']}({film['year']}) {film['duration']} мин. \n  {film['description']}",reply_markup=markup)
-
+        msg = bot.send_photo(message.chat.id,film['image'],f"{film['name']}({film['year']}) {film['duration']} мин. \n  {film['description']},filmId:{film['id']}",reply_markup=markup)
+        bot.register_next_step_handler(msg, delete_film_from_list)
     else:
         bot.send_message(message.chat.id, f"private data")
+
+def delete_film_from_list(message):
+    bot.send_message(message.chat.id, message.text)
 
 
 @bot.message_handler(commands=['list'])
